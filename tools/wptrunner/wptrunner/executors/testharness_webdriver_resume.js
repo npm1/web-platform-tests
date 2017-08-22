@@ -32,14 +32,14 @@ function process_event(event) {
   callback(["%(url)s", data.type, payload]);
 }
 
-window.removeEventListener(window.current_listener);
+window.removeEventListener("message", window.current_listener);
 if (window.message_queue) {
   var next = window.message_queue.shift();
   process_event(next);
 } else {
   window.addEventListener(
     "message", function f(event) {
-      window.removeEventListener(f);
+      window.removeEventListener("message", f);
       process_event(event);
     }, false);
 }
