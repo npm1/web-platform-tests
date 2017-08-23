@@ -13,7 +13,6 @@
 
         if (data.type !== "testautomation-complete") {
             return;
-            Promise.resolve(pending_promise);
         }
 
         if (data.status === "success") {

@@ -216,7 +216,24 @@ class SeleniumTestharnessExecutor(TestharnessExecutor):
                         selector = result[2]["selector"]
                         elements = webdriver.find_elements_by_css_selector(selector)
                         assert len(elements) == 1  # the JS should ensure this
-                        elements[0].click()
+                        try:
+                            elements[0].click()
+                        except (exceptions.ElementNotInteractableException,
+                                exceptions.ElementNotVisibleException) as e:
+                            msg = json.dumps(
+                                {
+                                    "type": "testautomation-complete",
+                                    "status": "failure",
+                                    "message": str(e)
+                                })
+                            webdriver.execute_script("window.postMessage(%s, '*')" % msg)
+                        else:
+                            msg = json.dumps(
+                                {
+                                    "type": "testautomation-complete",
+                                    "status": "success"
+                                })
+                            webdriver.execute_script("window.postMessage(%s, '*')" % msg)
                 finally:
                     webdriver.switch_to.window(parent)
         return result
