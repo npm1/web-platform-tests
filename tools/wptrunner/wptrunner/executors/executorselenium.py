@@ -168,9 +168,9 @@ class SeleniumTestharnessExecutor(TestharnessExecutor):
                                      debug_info=debug_info)
         self.protocol = SeleniumProtocol(self, browser, capabilities)
         with open(os.path.join(here, "testharness_webdriver.js")) as f:
-            self.script_resume = f.read()
-        with open(os.path.join(here, "testharness_webdriver_resume.js")) as f:
             self.script = f.read()
+        with open(os.path.join(here, "testharness_webdriver_resume.js")) as f:
+            self.script_resume = f.read()
         self.close_after_done = close_after_done
         self.window_id = str(uuid.uuid4())
 
@@ -205,6 +205,7 @@ class SeleniumTestharnessExecutor(TestharnessExecutor):
             result = webdriver.execute_async_script(
                 self.script_resume % format_map)
             if result[1] == "complete":
+                result = [result[0]] + result[2]
                 break
             elif result[1] == "action":
                 parent = webdriver.current_window_handle

@@ -14,9 +14,9 @@ function process_event(event) {
       return [x.name, x.status, x.message, x.stack];
     });
     payload = [status.status,
-		   status.message,
-		   status.stack,
-		   subtest_results];
+	       status.message,
+	       status.stack,
+	       subtest_results];
     clearTimeout(window.timer);
     break;
 
@@ -33,7 +33,7 @@ function process_event(event) {
 }
 
 window.removeEventListener("message", window.current_listener);
-if (window.message_queue) {
+if (window.message_queue.length) {
   var next = window.message_queue.shift();
   process_event(next);
 } else {
