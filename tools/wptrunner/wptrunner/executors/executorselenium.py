@@ -237,7 +237,7 @@ class SeleniumTestharnessExecutor(TestharnessExecutor):
                 finally:
                     webdriver.switch_to.window(parent)
         return result
-            
+
 
 
 class SeleniumRefTestExecutor(RefTestExecutor):
